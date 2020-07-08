@@ -28,13 +28,14 @@ crypto_stream_chacha20_ietf_KEYBYTES = \
     lib.crypto_stream_chacha20_ietf_keybytes()
 crypto_stream_chacha20_ietf_NONCEBYTES = \
     lib.crypto_stream_chacha20_ietf_noncebytes()
-crypto_stream_chacha20_ietf_MESSAGEBYTES = \
+crypto_stream_chacha20_ietf_MESSAGEBYTES_MAX = \
     lib.crypto_stream_chacha20_ietf_messagebytes_max()
 
 crypto_stream_xchacha20_KEYBYTES = lib.crypto_stream_xchacha20_keybytes()
 crypto_stream_xchacha20_NONCEBYTES = lib.crypto_stream_xchacha20_noncebytes()
 crypto_stream_xchacha20_MESSAGEBYTES_MAX = \
     lib.crypto_stream_xchacha20_messagebytes_max()
+
 
 def crypto_stream_chacha20_keygen():
     outbuf = ffi.new("unsigned char[]", crypto_stream_chacha20_KEYBYTES)
