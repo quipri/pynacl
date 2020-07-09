@@ -196,9 +196,11 @@ from nacl.bindings.crypto_stream import (
     crypto_stream_xchacha20_NONCEBYTES,
     crypto_stream_xchacha20_MESSAGEBYTES_MAX,
     crypto_stream_chacha20_keygen,
+    crypto_stream_chacha20,
     crypto_stream_chacha20_xor,
     crypto_stream_chacha20_xor_ic,
     crypto_stream_xchacha20_keygen,
+    crypto_stream_xchacha20,
     crypto_stream_xchacha20_xor,
     crypto_stream_xchacha20_xor_ic,
 )
@@ -347,9 +349,11 @@ __all__ = [
     "crypto_stream_xchacha20_NONCEBYTES",
     "crypto_stream_xchacha20_MESSAGEBYTES_MAX",
     "crypto_stream_chacha20_keygen",
+    "crypto_stream_chacha20",
     "crypto_stream_chacha20_xor",
     "crypto_stream_chacha20_xor_ic",
     "crypto_stream_xchacha20_keygen",
+    "crypto_stream_xchacha20",
     "crypto_stream_xchacha20_xor",
     "crypto_stream_xchacha20_xor_ic",
 

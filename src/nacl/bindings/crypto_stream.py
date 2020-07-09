@@ -38,52 +38,153 @@ crypto_stream_xchacha20_MESSAGEBYTES_MAX = \
 
 
 def crypto_stream_chacha20_keygen():
-    outbuf = ffi.new("unsigned char[]", crypto_stream_chacha20_KEYBYTES)
-    lib.crypto_stream_chacha20_keygen(outbuf)
-    return ffi.buffer(outbuf, crypto_stream_chacha20_KEYBYTES)[:]
+    keybuf = ffi.new("unsigned char[]", crypto_stream_chacha20_KEYBYTES)
+    lib.crypto_stream_chacha20_keygen(keybuf)
+    return ffi.buffer(keybuf, crypto_stream_chacha20_KEYBYTES)[:]
 
+
+def crypto_stream_chacha20(clen, nonce, key):
+    ensure(
+        isinstance(nonce, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(nonce) == crypto_stream_chacha20_NONCEBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(key, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(key) == crypto_stream_chacha20_KEYBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(clen, integer_types),
+        raising=exc.TypeError
+    )
+
+    cbuf = ffi.new("unsigned char[]", clen)
+    ret = lib.crypto_stream_chacha20(cbuf, clen, nonce, key)
+
+    ensure(
+        ret == 0, 'Unexepected failure in encryption',
+        raising=exc.RuntimeError
+    )
+
+    return ffi.buffer(cbuf, clen)[:]
+    
 
 def crypto_stream_chacha20_xor(message, nonce, key):
-    ensure(isinstance(message, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(nonce, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(key, bytes),
-        raising=exc.TypeError)
+    ensure(
+        isinstance(message, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        isinstance(nonce, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(nonce) == crypto_stream_chacha20_NONCEBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(key, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(key) == crypto_stream_chacha20_KEYBYTES,
+        raising=exc.ValueError
+    )
 
-    outlen = len(message)
-    outbuf = ffi.new("unsigned char[]", outlen)
-    ret = lib.crypto_stream_chacha20_xor(outbuf, message, outlen, nonce, key)
+    clen = len(message)
+    cbuf = ffi.new("unsigned char[]", clen)
 
-    ensure(ret == 0, 'Unexpected failure in encryption/decryption',
-           raising=exc.RuntimeError)
+    ret = lib.crypto_stream_chacha20_xor(cbuf, message, clen, nonce, key)
+    ensure(
+        ret == 0, 'Unexpected failure in encryption/decryption',
+        raising=exc.RuntimeError
+    )
 
-    return ffi.buffer(outbuf, outlen)[:]
+    return ffi.buffer(cbuf, clen)[:]
 
 
 def crypto_stream_chacha20_xor_ic(message, nonce, ic, key):
-    ensure(isinstance(message, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(nonce, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(key, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(ic, integer_types),
-        raising=exc.TypeError)
+    ensure(
+        isinstance(message, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        isinstance(nonce, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(nonce) == crypto_stream_chacha20_NONCEBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(key, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(key) == crypto_stream_chacha20_KEYBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(ic, integer_types),
+        raising=exc.TypeError
+    )
 
-    outlen = len(message)
-    outbuf = ffi.new("unsigned char[]", outlen)
+    clen = len(message)
+    cbuf = ffi.new("unsigned char[]", clen)
 
-    ret = lib.crypto_stream_chacha20_xor_ic(outbuf, message, outlen, nonce, ic, key)
-    ensure(ret == 0, 'Unexpected failure in encryption/decryption',
-        raising=exc.RuntimeError)
-    return ffi.buffer(outbuf, outlen)[:]
+    ret = lib.crypto_stream_chacha20_xor_ic(cbuf, message, clen, nonce, ic, key)
+    ensure(
+        ret == 0, 'Unexpected failure in encryption/decryption',
+        raising=exc.RuntimeError
+    )
+
+    return ffi.buffer(cbuf, clen)[:]
 
 
 def crypto_stream_xchacha20_keygen():
-    outbuf = ffi.new("unsigned char[]", crypto_stream_xchacha20_KEYBYTES)
-    lib.crypto_stream_chacha20_keygen(outbuf)
-    return ffi.buffer(outbuf, crypto_stream_xchacha20_KEYBYTES)[:]
+    keybuf = ffi.new("unsigned char[]", crypto_stream_xchacha20_KEYBYTES)
+    lib.crypto_stream_chacha20_keygen(keybuf)
+    return ffi.buffer(keybuf, crypto_stream_xchacha20_KEYBYTES)[:]
+
+
+def crypto_stream_xchacha20(clen, nonce, key):
+    ensure(
+        isinstance(nonce, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(nonce) == crypto_stream_xchacha20_NONCEBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(key, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(key) == crypto_stream_xchacha20_KEYBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(clen, integer_types),
+        raising=exc.TypeError
+    )
+
+    cbuf = ffi.new("unsigned char[]", clen)
+    ret = lib.crypto_stream_xchacha20(cbuf, clen, nonce, key)
+
+    ensure(
+        ret == 0, 'Unexepected failure in encryption',
+        raising=exc.RuntimeError
+    )
+
+    return ffi.buffer(cbuf, clen)[:]
 
 
 def crypto_stream_xchacha20_xor(message, nonce, key):
@@ -96,8 +197,16 @@ def crypto_stream_xchacha20_xor(message, nonce, key):
         raising=exc.TypeError
     )
     ensure(
+        len(nonce) == crypto_stream_xchacha20_NONCEBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
         isinstance(key, bytes),
         raising=exc.TypeError
+    )
+    ensure(
+        len(key) == crypto_stream_xchacha20_KEYBYTES,
+        raising=exc.ValueError
     )
 
     clen = len(message)
@@ -114,19 +223,38 @@ def crypto_stream_xchacha20_xor(message, nonce, key):
 
 
 def crypto_stream_xchacha20_xor_ic(message, nonce, ic, key):
-    ensure(isinstance(message, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(nonce, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(key, bytes),
-        raising=exc.TypeError)
-    ensure(isinstance(ic, integer_types),
-        raising=exc.TypeError)
+    ensure(
+        isinstance(message, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        isinstance(nonce, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(nonce) == crypto_stream_xchacha20_NONCEBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(key, bytes),
+        raising=exc.TypeError
+    )
+    ensure(
+        len(key) == crypto_stream_xchacha20_KEYBYTES,
+        raising=exc.ValueError
+    )
+    ensure(
+        isinstance(ic, integer_types),
+        raising=exc.TypeError
+    )
 
     clen = len(message)
     cbuf = ffi.new("unsigned char[]", clen)
 
     ret = lib.crypto_stream_xchacha20_xor_ic(cbuf, message, clen, nonce, ic, key)
-    ensure(ret == 0, 'Unexpected failure in encryption/decryption',
-        raising=exc.RuntimeError)
+    ensure(
+        ret == 0, 'Unexpected failure in encryption/decryption',
+        raising=exc.RuntimeError
+    )
+
     return ffi.buffer(cbuf, clen)[:]
